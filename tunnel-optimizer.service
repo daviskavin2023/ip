@@ -1,0 +1,15 @@
+[Unit]
+Description=3040 Cloudflare Tunnel Best-IP Optimizer and Health Daemon
+After=network.target cloudflared.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/3040-tunnel
+ExecStart=/usr/bin/python3 /opt/3040-tunnel/daemon.py
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

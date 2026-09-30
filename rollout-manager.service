@@ -1,0 +1,16 @@
+[Unit]
+Description=3040 rollout manager (one hostname at a time, 3-round verification)
+After=network.target tunnel-optimizer.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/3040-tunnel
+EnvironmentFile=/opt/3040-tunnel/.env
+ExecStart=/usr/bin/python3 /opt/3040-tunnel/rollout_manager.py
+Restart=always
+RestartSec=10
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

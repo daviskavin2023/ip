@@ -1,0 +1,16 @@
+[Unit]
+Description=3040 hostname health monitor (auto-rollback for converted hostnames)
+After=network.target tunnel-optimizer.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/3040-tunnel
+EnvironmentFile=/opt/3040-tunnel/.env
+ExecStart=/usr/bin/python3 /opt/3040-tunnel/hostname_monitor.py
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
