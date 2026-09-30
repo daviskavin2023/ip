@@ -145,9 +145,24 @@ def reconcile_deleted_hostnames(saas_cf, cf, panel_hostnames, managed, state):
     (or Cloudflare Zero Trust), automatically clean up all associated resources
     and drop it from the 3040 managed matrix.
     """
+    if not panel_hostnames or len(panel_hostnames) < 5:
+        logging.warning(
+            f"[安全熔断] 面板返回的主机名数量异常 ({len(panel_hostnames) if panel_hostnames else 0})，"
+            f"疑似接口响应异常或列表未就绪，绝对禁止执行删除对齐！"
+        )
+        return False
+
     panel_set = set(panel_hostnames)
     deleted = [h for h in list(managed.keys()) if h not in panel_set and h not in EXCLUDED_HOSTNAMES]
     if not deleted:
+        return False
+
+    # 批量删除熔断：单次批量删除超过 3 个域名时拒绝执行
+    if len(deleted) > 3:
+        logging.error(
+            f"[安全熔断] 检测到单次待删除域名数量为 {len(deleted)} 个 (超过安全阈值 3)，"
+            f"疑似外部数据源异常，拒绝自动批量删除！待删清单: {deleted}"
+        )
         return False
 
     changed = False
