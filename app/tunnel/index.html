@@ -124,7 +124,8 @@ main.wrap{padding-top:16px;padding-bottom:80px}
 .pill.ok{background:var(--green-bg);color:var(--green)} .pill.warn{background:var(--yellow-bg);color:var(--yellow)}
 .pill.bad{background:var(--red-bg);color:var(--red)}
 .c-meta{font-size:12px;color:var(--text-2);display:flex;align-items:center;gap:8px;min-height:20px;min-width:0}
-.c-meta .mt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.c-meta .mt{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.c-meta .tag{margin-left:auto}
 .c-meta .bad{color:var(--red);font-weight:600}
 .addr{display:flex;gap:8px;margin-top:auto}
 .blk{flex:1;min-width:0;min-height:44px;border-radius:var(--r-input);padding:4px 10px;text-align:left;display:flex;flex-direction:column;justify-content:center;border:1px solid;text-decoration:none;transition:background-color var(--t),border-color var(--t)}
@@ -357,7 +358,7 @@ function card(r, i) {
   const pill = `<span class="pill ${st}">${SX[st]}</span>`;
   return `<div class="card s-${st}" data-i="${i}" tabindex="0" role="button" aria-label="${esc(r.hostname)}">
     <div class="c-top"><div class="c-name">${esc(r.hostname)}</div>${pill}</div>
-    <div class="c-meta"><span class="tag${tg.proj ? ' proj' : ''}">${esc(tg.t)}</span><span class="mt">${esc(r.tunnel)} · ${meta}</span></div>
+    <div class="c-meta"><span class="mt">${st === 'ok' ? '' : meta}</span><span class="tag${tg.proj ? ' proj' : ''}">${esc(tg.t)}</span></div>
     ${beat(r.hostname)}
     <div class="addr">
       <a class="blk out" href="https://${esc(r.hostname)}" target="_blank" rel="noopener"><small>外网</small><span>${esc(r.hostname)}</span></a>
