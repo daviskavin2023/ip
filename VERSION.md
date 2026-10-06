@@ -1,5 +1,15 @@
 # 3040-穿透优选-tunnel 版本与变更日志
 
+## [界面重做] 2026-10-06 Tunnel 总览 + 优选 IP 大屏套用统一设计系统
+
+- **只改界面，接口与逻辑零改动**：Tunnel 总览（`app/tunnel/index.html`，由 `src/tunnel-panel.py` 读取）与优选 IP 大屏（`app/optimizer/index.html`，由 `src/web_ui.py` 读取）改为独立 HTML 文件，按 `DESIGN-SYSTEM.md` 重做（薄荷绿、浅/深两套、字号 5 档、固定尺寸卡片、胶囊筛选、无下拉、骨架占位+淡入、危险操作二次确认）。
+- 新增 `checked_ts`（数字时间戳，附加字段）：避免 CT160 为 UTC 时页面显示的"上次检查"与本地时间差 8 小时。
+- 部署：CT160 手工 `pct push`（无 git/webhook）。`/opt/tunnel-panel/ui/index.html`、`/opt/3040-tunnel/ui/index.html`；改前备份 `*.bak.ui_<时间>`；重启 `tunnel-panel`、`tunnel-optimizer`。
+- **Tunnel 卡片加归属标签**：项目只放编号（3011…）；PVE 内的机器放 `pve节点+编号`（如 pve10 109、pve1 116）；其他放主机胶囊（.6、飞牛 .9、.2）。规则在页面内 `tagOf()`，纯前端，无接口改动；新增项目端口落在 3010–3049 且在 .14/.18 上自动识别，其余机器要在 `HOST_TAG` 补一行。
+- **peerbar 胶囊条**：两个页面最顶端加六页统一的相关控制台胶囊条（3024 项目中台 · 3040 Tunnel · 3040 优选 IP · 3031 抓取调度 · 3043 手机转发 · 3041 修复审批），桌面端与其他五页坐标逐像素一致。
+- **7 天可用性**：`tunnel-panel.py` 巡检时每轮累加每日 `[up,total]`（北京时间）到 `/var/lib/tunnel-panel/uptime.json`；两个进程各加只读 `GET /api/uptime`；两个页面的域名卡片各加一行 7 色块 + 百分比，无样本显示灰块和 `--`。见 `docs/PRD-2026-10-06-7天可用性.md`。无法回填历史（旧日志只记失败），从 2026-10-06 起逐天积累。
+- 验证：375/390/412/1280 × 浅深零横向滚动；Tunnel 46 条、优选 IP 46 条 + 5 节点与改前一致。外链胶囊条为第二步。
+
 ## [并发保护与状态原子化] 2026-09-27 状态持久化并发安全加固与 CLI 支持
 
 - **并发覆写防护 (Concurrency Safety)**：
