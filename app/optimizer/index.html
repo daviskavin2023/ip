@@ -206,6 +206,7 @@ main.wrap{padding-top:16px;padding-bottom:80px}
 /* ---------- 相关控制台胶囊条（六个页面完全一致：固定最顶端 48px） ---------- */
 .peerbar{position:fixed;top:0;left:0;right:0;z-index:60;box-sizing:border-box;height:calc(48px + env(safe-area-inset-top));padding-top:env(safe-area-inset-top);background:var(--bg);border-bottom:1px solid var(--border)}
 .peerbar-spacer{height:calc(48px + env(safe-area-inset-top))}
+.peerbar i{font-style:normal}.peerbar .m{display:none}
 .peerbar-in{box-sizing:border-box;width:100%;max-width:1280px;margin:0 auto;height:48px;padding:0 20px;display:flex;align-items:center;justify-content:flex-start;gap:8px;overflow-x:auto;scrollbar-width:none}
 .peerbar-in::-webkit-scrollbar{display:none}
 .peerbar a,.peerbar span{box-sizing:border-box;position:relative;flex:none;display:inline-flex;align-items:center;height:32px;padding:0 14px;border-radius:9999px;border:1px solid var(--border);background:var(--surface);color:var(--text-2);font:400 14px/1 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;text-decoration:none;white-space:nowrap;cursor:pointer}
@@ -222,6 +223,7 @@ main.wrap{padding-top:16px;padding-bottom:80px}
 .beat7 i{flex:1;min-width:0;border-radius:2px;background:var(--green);height:100%;opacity:.85}
 .beat7 i.w{background:var(--yellow);height:70%} .beat7 i.d{background:var(--red);height:45%} .beat7 i.n{background:var(--border-strong);height:18%;opacity:.7}
 .up .pct{font:400 12px var(--mono);font-variant-numeric:tabular-nums;color:var(--text-2);white-space:nowrap}
+@media (max-width:480px){.peerbar .l{display:none}.peerbar .m{display:inline}.peerbar-in{gap:3px;padding:0 12px}.peerbar a,.peerbar span{font-size:12px;padding:0 6px}}
 </style>
 </head>
 <body>
@@ -232,19 +234,19 @@ main.wrap{padding-top:16px;padding-bottom:80px}
 (function () {
   var SELF = 'optimizer';
   var PEERS = [
-    { key: 'xmzt', name: '3024 项目中台', lan: 'http://10.10.10.14:3024/', pub: 'https://xmzt.808608.xyz/' },
-    { key: 'tunnel', name: '3040 Tunnel', lan: 'http://10.10.10.160:39091/', pub: 'https://cloudtunnel.808608.xyz/' },
-    { key: 'optimizer', name: '3040 优选 IP', lan: 'http://10.10.10.160:3040/', pub: '' },
-    { key: 'rpa', name: '3031 抓取调度', lan: 'http://10.10.10.14:3031/', pub: 'https://rpa.808608.xyz/' },
-    { key: 'phone', name: '3043 手机转发', lan: 'http://10.10.10.14:3043/', pub: 'https://phone.808608.xyz/' },
-    { key: 'repair', name: '3041 修复审批', lan: 'http://10.10.10.18:3041/', pub: 'https://repair.808608.xyz/' }
+    { key: 'xmzt', name: '3024 项目中台', s: '3024', lan: 'http://10.10.10.14:3024/', pub: 'https://xmzt.808608.xyz/' },
+    { key: 'tunnel', name: '3040 Tunnel', s: '3040 隧道', lan: 'http://10.10.10.160:39091/', pub: 'https://cloudtunnel.808608.xyz/' },
+    { key: 'optimizer', name: '3040 优选 IP', s: '3040 优选', lan: 'http://10.10.10.160:3040/', pub: '' },
+    { key: 'rpa', name: '3031 抓取调度', s: '3031', lan: 'http://10.10.10.14:3031/', pub: 'https://rpa.808608.xyz/' },
+    { key: 'phone', name: '3043 手机转发', s: '3043', lan: 'http://10.10.10.14:3043/', pub: 'https://phone.808608.xyz/' },
+    { key: 'repair', name: '3041 修复审批', s: '3041', lan: 'http://10.10.10.18:3041/', pub: 'https://repair.808608.xyz/' }
   ];
   var inLan = /^(10\.|192\.168\.|localhost$|127\.)/.test(location.hostname);
   var nav = document.getElementById('peers');
   PEERS.forEach(function (p) {
     var self = p.key === SELF, url = self ? '' : (inLan ? p.lan : p.pub);
     var node = document.createElement(url ? 'a' : 'span');
-    node.textContent = p.name + (!self && !url ? '（仅内网）' : '');
+    node.innerHTML = '<i class="l">' + p.name + (!self && !url ? '（仅内网）' : '') + '</i><i class="m">' + p.s + '</i>';  // 手机宽度只显示编号(3040 的两个带两字)，六个全部放得下、位置不动
     if (self) { node.className = 'self'; node.setAttribute('aria-current', 'page'); }
     else if (!url) node.className = 'off';
     if (url) { node.href = url; node.rel = 'noopener'; }
