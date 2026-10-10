@@ -111,7 +111,7 @@ main.wrap{padding-top:16px;padding-bottom:80px}
 #view{opacity:1;transition:opacity 160ms var(--ease)}
 #view.fade{opacity:0}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:16px}
-.card{position:relative;height:168px;border:1px solid var(--border);border-radius:var(--r-card);background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:8px;text-align:left;transition:border-color var(--t),background-color var(--t);cursor:pointer;overflow:hidden}
+.card{position:relative;height:176px;border:1px solid var(--border);border-radius:var(--r-card);background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:8px;text-align:left;transition:border-color var(--t),background-color var(--t);cursor:pointer;overflow:hidden}
 .card:hover{background:var(--surface-2);border-color:var(--border-strong)}
 .card.s-bad{border-color:var(--red)}
 .card.s-warn{border-color:var(--yellow)}
@@ -234,6 +234,13 @@ main.wrap{padding-top:16px;padding-bottom:80px}
         .top-row .tools{display:flex;align-items:center;gap:8px}
         @media (max-width:820px){.top-row .tools{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;width:100%;padding:4px 0}.top-row .tools::-webkit-scrollbar{display:none}.top-row .tools .btn{flex:none}}
     </style>
+<style>
+        /* ===== 卡片规格统一（对齐 3024）：圆角 16、内边距 16、间距 8、无悬停上浮/阴影，只过渡颜色与透明度 ===== */
+        .kpi-card,.card,.stat,.row,.block,.detail-head,.login{border-radius:var(--r-card)!important;box-shadow:none!important;backdrop-filter:none!important;transition:background-color var(--t),border-color var(--t),opacity var(--t)!important}
+        .kpi-card:hover,.card:hover,.stat:hover,.row:hover{transform:none!important}
+        .kpi-card,.stat{padding:16px!important}
+        .card{padding:16px!important;gap:8px!important;min-height:176px}
+</style>
 <style>.embedded .peerbar,.embedded .peerbar-spacer{display:none!important}.embedded .top{top:env(safe-area-inset-top)!important}</style>
 <div class="peerbar" role="navigation" aria-label="相关控制台"><nav class="peerbar-in" id="peers"></nav></div>
 <div class="peerbar-spacer" aria-hidden="true"></div>
