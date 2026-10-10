@@ -252,6 +252,13 @@ main.wrap{padding-top:16px;padding-bottom:80px}
         @media (max-width:820px){.top-row .tools{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.top-row .tools::-webkit-scrollbar{display:none}.top-row .tools>*{flex:none}}
 </style>
 <style>.embedded .peerbar,.embedded .peerbar-spacer{display:none!important}.embedded .top{top:0!important}</style>
+<style>
+/* 顶部胶囊条：序号 + 2 字，两行；六个等宽等高、居中（高 40，比原来 32 大） */
+.peerbar-in{justify-content:center!important;gap:6px!important;padding:0 12px!important}
+.peerbar-in a,.peerbar-in span{flex:1 1 0!important;min-width:0!important;max-width:112px!important;width:auto!important;height:40px!important;padding:0 4px!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;border-radius:20px!important;gap:0!important;text-align:center!important}
+.peerbar-in i.n{font:600 12px/1.15 var(--mono);font-style:normal}
+.peerbar-in i.t{font:400 11px/1.15 var(--font);font-style:normal}
+</style>
 <div class="peerbar" role="navigation" aria-label="相关控制台"><nav class="peerbar-in" id="peers"></nav></div>
 <div class="peerbar-spacer" aria-hidden="true"></div>
 <script>
@@ -259,19 +266,19 @@ main.wrap{padding-top:16px;padding-bottom:80px}
 (function () {
   var SELF = 'tunnel';
   var PEERS = [
-    { key: 'xmzt', name: '3024 项目中台', s: '3024', lan: 'http://10.10.10.14:3024/', pub: 'https://xmzt.808608.xyz/' },
-    { key: 'tunnel', name: '3040 Tunnel', s: '3040 隧道', lan: 'http://10.10.10.160:39091/', pub: 'https://cloudtunnel.808608.xyz/' },
-    { key: 'optimizer', name: '3040 优选 IP', s: '3040 优选', lan: 'http://10.10.10.160:3040/', pub: 'https://yxip.808608.xyz/' },
-    { key: 'rpa', name: '3031 抓取调度', s: '3031', lan: 'http://10.10.10.14:3031/', pub: 'https://rpa.808608.xyz/' },
-    { key: 'phone', name: '3043 手机转发', s: '3043', lan: 'http://10.10.10.14:3043/', pub: 'https://phone.808608.xyz/' },
-    { key: 'repair', name: '3041 修复审批', s: '3041', lan: 'http://10.10.10.18:3041/', pub: 'https://repair.808608.xyz/' }
+    { key: 'xmzt', n: '3024', t: '中台', name: '3024 项目中台', s: '3024', lan: 'http://10.10.10.14:3024/', pub: 'https://xmzt.808608.xyz/' },
+    { key: 'tunnel', n: '3040', t: '隧道', name: '3040 Tunnel', s: '3040 隧道', lan: 'http://10.10.10.160:39091/', pub: 'https://cloudtunnel.808608.xyz/' },
+    { key: 'optimizer', n: '3040', t: '优选', name: '3040 优选 IP', s: '3040 优选', lan: 'http://10.10.10.160:3040/', pub: 'https://yxip.808608.xyz/' },
+    { key: 'rpa', n: '3031', t: '任务', name: '3031 抓取调度', s: '3031', lan: 'http://10.10.10.14:3031/', pub: 'https://rpa.808608.xyz/' },
+    { key: 'phone', n: '3043', t: '手机', name: '3043 手机转发', s: '3043', lan: 'http://10.10.10.14:3043/', pub: 'https://phone.808608.xyz/' },
+    { key: 'repair', n: '3041', t: '修复', name: '3041 修复审批', s: '3041', lan: 'http://10.10.10.18:3041/', pub: 'https://repair.808608.xyz/' }
   ];
   var inLan = /^(10\.|192\.168\.|localhost$|127\.)/.test(location.hostname);
   var nav = document.getElementById('peers');
   PEERS.forEach(function (p) {
     var self = p.key === SELF, url = self ? '' : (inLan ? p.lan : p.pub);
     var node = document.createElement(url ? 'a' : 'span');
-    node.innerHTML = '<i class="l">' + p.name + (!self && !url ? '（仅内网）' : '') + '</i><i class="m">' + p.s + '</i>';  // 手机宽度只显示编号(3040 的两个带两字)，六个全部放得下、位置不动
+        node.innerHTML = '<i class="n">' + p.n + '</i><i class="t">' + p.t + '</i>';
     if (self) { node.className = 'self'; node.setAttribute('aria-current', 'page'); }
     else if (!url) node.className = 'off';
     if (url) { node.href = url; node.rel = 'noopener'; }
