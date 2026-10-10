@@ -189,7 +189,7 @@ main.wrap{padding-top:16px;padding-bottom:80px}
 .peerbar i{font-style:normal}.peerbar .m{display:none}
 .peerbar-in{box-sizing:border-box;width:100%;max-width:1280px;margin:0 auto;height:48px;padding:0 20px;display:flex;align-items:center;justify-content:flex-start;gap:8px;overflow-x:auto;scrollbar-width:none}
 .peerbar-in::-webkit-scrollbar{display:none}
-.peerbar a,.peerbar span{box-sizing:border-box;position:relative;flex:none;display:inline-flex;align-items:center;height:32px;padding:0 14px;border-radius:9999px;border:1px solid var(--border);background:var(--surface);color:var(--text-2);font:400 14px/1 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;text-decoration:none;white-space:nowrap;cursor:pointer}
+.peerbar a,.peerbar span{box-sizing:border-box;position:relative;flex:none;display:inline-flex;align-items:center;height:32px;padding:0 14px;border-radius:var(--r-pill);border:1px solid var(--border);background:var(--surface);color:var(--text-2);font:400 14px/1 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;text-decoration:none;white-space:nowrap;cursor:pointer}
 .peerbar a::after{content:"";position:absolute;left:0;right:0;top:-6px;bottom:-6px}
 .peerbar a:hover{border-color:var(--border-strong);color:var(--text)}
 .peerbar .self{background:var(--brand);border-color:var(--brand);color:var(--on-brand);cursor:default}
@@ -207,6 +207,34 @@ main.wrap{padding-top:16px;padding-bottom:80px}
 </style>
 </head>
 <body>
+<script>document.documentElement.classList.toggle('embedded', window.top !== window.self);</script>
+<style>
+        /* ===== 设计规范统一首行（对齐 3024 项目中台）：令牌映射 + 顶栏 + 字体 + 圆角 ===== */
+        :root{--r-panel:20px;--r-card:16px;--r-nav:14px;--r-input:9px;--r-tag:6px;--r-pill:9999px;
+          --font:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Segoe UI",system-ui,sans-serif;
+          --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+          --on-brand:var(--on-fill);--border:var(--border-color);--text:var(--text-primary);--text-2:var(--text-secondary);--text-3:var(--text-muted);
+          --t:180ms;--ease:cubic-bezier(.2,.8,.2,1)}
+        body{font-family:var(--font)}
+        .top{position:sticky;top:calc(48px + env(safe-area-inset-top));z-index:40;background:var(--bg-color);border-bottom:1px solid var(--border-color)}
+        .top-wrap{max-width:1480px;margin:0 auto;padding:0 20px}
+        .top-row{display:flex;align-items:center;gap:16px;min-height:56px;flex-wrap:wrap;padding:8px 0}
+        .top-row .logo{font-weight:600;font-size:18px;display:flex;align-items:center;gap:10px;white-space:nowrap;color:var(--text-primary)}
+        .top-row .logo b{width:28px;height:28px;border-radius:var(--r-input);background:var(--brand);display:grid;place-items:center;color:var(--on-brand)}
+        .top-row .logo b svg{width:18px;height:18px;fill:currentColor}
+        .top-row .ver{font:400 12px var(--mono);color:var(--text-muted);border:1px solid var(--border-color);border-radius:var(--r-pill);padding:2px 8px}
+        .top-row .top-spacer{flex:1}
+        .top-row .btn,.top-row .hb,.top-row .worker-pill{position:relative;min-height:32px;font-size:14px;border-radius:var(--r-input);display:inline-flex;align-items:center;gap:8px;padding:0 12px}
+        .top-row .btn::after{content:"";position:absolute;left:0;right:0;top:-6px;bottom:-6px}
+        .top-row .hb{font-size:12px;color:var(--text-secondary);gap:6px;cursor:pointer}
+        .top-row .worker-pill{font-size:12px;border-radius:var(--r-pill);min-height:24px;padding:2px 10px}
+        @media (max-width:820px){.top-row .ver{display:none}.top-wrap{padding:0 16px}.top-row{gap:10px}}
+        @media (max-width:480px){.top-row .btn{padding:0 10px}}
+
+        .top-row .tools{display:flex;align-items:center;gap:8px}
+        @media (max-width:820px){.top-row .tools{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;width:100%;padding:4px 0}.top-row .tools::-webkit-scrollbar{display:none}.top-row .tools .btn{flex:none}}
+    </style>
+<style>.embedded .peerbar,.embedded .peerbar-spacer{display:none!important}.embedded .top{top:env(safe-area-inset-top)!important}</style>
 <div class="peerbar" role="navigation" aria-label="相关控制台"><nav class="peerbar-in" id="peers"></nav></div>
 <div class="peerbar-spacer" aria-hidden="true"></div>
 <script>
